@@ -15,6 +15,8 @@
                     <th>プレミアム</th>
                     <th>ポジション</th>
                     <th>取引実行</th>
+                    <th>購入日</th>
+                    <th>実行済?</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,6 +39,8 @@
         <td id="premium">{{premium}}</td>
         <td id="position">{{position}}</td>
         <td><button type="button" class="btn btn-success" id="{{contract_address}}">購入</button></td>
+        <td id="buy_date">{{buy_date}}</td>
+        <td id="done">{{done}}</td>
     </tr>
     {{/each}}
 </template>

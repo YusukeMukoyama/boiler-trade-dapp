@@ -16,20 +16,23 @@ Template.contract.events({
     // send transaction to contract
     // accountはunlockしていないとエラーになる
     var cnt = web3.eth.contract(abi).at(contract_address);
-    var result = cnt.Respond.sendTransaction(web3.eth.accounts[0], 100000, {from: web3.eth.accounts[0], gas:500000});
-    alert( "購入が完了しました!!\nトランザクションアドレスは" + result );
+    var transaction_address = cnt.Respond.sendTransaction(web3.eth.accounts[0], 100000, {from: web3.eth.accounts[0], gas:500000});
+    alert( "購入が完了しました!!\nトランザクションアドレスは" + transaction_address );
 
-    // 以下、transaction collection機能の実装
-    var id = "hoge"
-    var seller = "hoge"
-    var price = "hoge"
-    var amount = "hoge"
-    var address = "hoge"
-    var address = "hoge"
-    var address = "hoge"
+    // 以下、contractsをupdateしてmongoに保存
+    var _id = $(event.target).parent().prevAll().eq(6).text();
+    var seller = $(event.target).parent().prevAll().eq(5).text();
+    var price = $(event.target).parent().prevAll().eq(4).text();
+    var amount = $(event.target).parent().prevAll().eq(3).text();
+    var exeday = $(event.target).parent().prevAll().eq(2).text();
+    var premium = $(event.target).parent().prevAll().eq(1).text();
+    var position = $(event.target).parent().prevAll().eq(0).text();
     var buy_date = new Date(); // 購入日データ
     var done = "false";  //実行されたらtrueになる
-    Meteor.call('insert_transactions', seller, price, amount, exeday, premium, position, contract_address, abi, buy_date, done); // Mongoに格納
+    Meteor.call('update_contracts', _id, seller, price, amount, exeday, premium, position, contract_address, abi, buy_date, done, transaction_address);
 
+    //ボタンの書き換え
+    $(event.target).removeClass("btn-success").addClass("btn-default");
+    $(event.target).text("購入済");
   }
 });
